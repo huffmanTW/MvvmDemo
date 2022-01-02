@@ -5,24 +5,29 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import xyz.russell.demo.mvvm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-        findViewById<Button>(R.id.btn_add).setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             viewModel.incrementByOne()
         }
 
-        findViewById<Button>(R.id.btn_minus).setOnClickListener {
+        binding.btnMinus.setOnClickListener {
             viewModel.minusByOne()
         }
 
         viewModel.countLiveData.observe(this) {
-            findViewById<TextView>(R.id.tv_count_view).text = it.toString()
+            binding.tvCountView.text = it.toString()
         }
 
     }
